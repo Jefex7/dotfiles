@@ -161,7 +161,7 @@ export NVM_DIR="$HOME/.nvm"
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=`which chromium`
 
-alias dotfiles='/usr/bin/git --git-dir=/Users/yonko/.cfg/ --work-tree=/Users/yonko'
+alias dotfiles='/usr/bin/git --git-dir=/Users/$USERNAME/.cfg/ --work-tree=/Users/$USERNAME'
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
