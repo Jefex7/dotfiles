@@ -5,7 +5,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -80,9 +80,11 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git 
+plugins=(
+  # zsh-fzf-history-search
+  git 
   zsh-autosuggestions 
-  zsh-syntax-highlighting 
+  zsh-syntax-highlighting
 )
 
 
@@ -91,6 +93,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Zsh plugins source 
 source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+# source /opt/homebrew/Cellar/fzf/0.53.0/shell/key-bindings.zsh
+# source /opt/homebrew/Cellar/fzf/0.53.0/shell/completion.zsh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -152,6 +156,14 @@ alias pip="$(pyenv which pip)"
 alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 #alias python=python3
 
+#alias for Connection DB HMCTS
+alias refreshAzSSHToken="yes n | az ssh config --ip \*.platform.hmcts.net --file ~/.ssh/config"
+alias copyProdDbPass="az account get-access-token --resource-type oss-rdbms --query accessToken -o tsv | pbcopy"
+alias connectdb="refreshAzSSHToken && copyProdDbPass && ssh prod"
+# alias connectdb="refreshAzSSHToken && copyProdDbPass && ssh -N prod"
+# alias connectdb="refreshAzSSHToken && ssh prod -t 'az account get-access-token --resource-type oss-rdbms --query accessToken -o tsv '"
+
+
 PATH="{$HOME}/.pyenv/versions/2.7.18/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
@@ -166,7 +178,8 @@ alias dotfiles='/usr/bin/git --git-dir=/Users/$USERNAME/.cfg/ --work-tree=/Users
 # Load Angular CLI autocompletion.
 source <(ng completion script)
 
-zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
+# zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
