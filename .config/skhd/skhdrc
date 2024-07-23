@@ -9,11 +9,18 @@ alt - k : yabai -m window --focus north
 alt - h : yabai -m window --focus west
 alt - l : yabai -m window --focus east
 
+
 #change focus between external displays (left and right)
 #alt - s: yabai -m display --focus west
 #alt - g: yabai -m display --focus east
 
 # -- Modifying the Layout --
+shift + alt - s : yabai -m config layout stack
+shift + alt - b : yabai -m config layout bsp
+
+# cycle through stacked window
+lshift + lalt - n : yabai -m window --focus stack.next #|| yabai -m window --focus stack.first
+lshift + lalt - p : yabai -m window --focus stack.prev #|| yabai -m window --focus stack.last
 
 # rotate layout clockwise
 # shift + alt - r : yabai -m space --rotate 270
@@ -24,12 +31,21 @@ shift + alt - y : yabai -m space --mirror y-axis
 # flip along x-axis
 shift + alt - x : yabai -m space --mirror x-axis
 
+# Flip btw horizontal & vertical split 
+shift + alt - s : yabai -m window --toggle split
+
 # toggle window float
 # Understand Grid first 2 numbers how many rows and colums 
 # 2 next numbers where the windows start 0(x,y axis)
 # 2 next numbers is the span of the window (width, height)
 
 shift + alt - t : yabai -m window --toggle float --grid 8:8:1:0:6:8
+
+# Make floating window fill left-half of screen.
+shift + ctrl - left  : yabai -m window --grid 1:2:0:0:1:1
+
+# Make floating window fill right-half of screen.
+shift + ctrl - right  : yabai -m window --grid 1:2:1:0:1:1
 
  
 # -- Modifying Window Size --
@@ -49,8 +65,8 @@ shift + alt - e : yabai -m space --balance
 # swap windows
 #shift + alt - j : yabai -m window --swap south
 # shift + alt - k : yabai -m window --swap north
-# shift + alt - h : yabai -m window --swap west
-# shift + alt - l : yabai -m window --swap east
+ shift + alt - h : yabai -m window --swap west
+ shift + alt - l : yabai -m window --swap east
 
 # move window and split
 # ctrl + alt - j : yabai -m window --warp south
