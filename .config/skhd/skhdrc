@@ -16,7 +16,7 @@ alt - l : yabai -m window --focus east
 
 # -- Modifying the Layout --
 shift + alt - s : yabai -m config layout stack
-shift + alt - b : yabai -m config layout bsp
+shift + alt - a : yabai -m config layout bsp
 
 # cycle through stacked window
 lshift + lalt - n : yabai -m window --focus stack.next #|| yabai -m window --focus stack.first

@@ -1,5 +1,4 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc. Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -155,6 +154,7 @@ alias python="$(pyenv which python)"
 alias pip="$(pyenv which pip)"
 alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 #alias python=python3
+export JAVA_HOME=/Users/yonko/Library/Java/JavaVirtualMachines/corretto-17.0.6/Contents/Home
 
 #alias for Connection DB HMCTS
 alias refreshAzSSHToken="yes n | az ssh config --ip \*.platform.hmcts.net --file ~/.ssh/config"
@@ -162,7 +162,6 @@ alias copyProdDbPass="az account get-access-token --resource-type oss-rdbms --qu
 alias connectdb="refreshAzSSHToken && copyProdDbPass && ssh prod"
 # alias connectdb="refreshAzSSHToken && copyProdDbPass && ssh -N prod"
 # alias connectdb="refreshAzSSHToken && ssh prod -t 'az account get-access-token --resource-type oss-rdbms --query accessToken -o tsv '"
-
 
 PATH="{$HOME}/.pyenv/versions/2.7.18/bin:$PATH"
 
