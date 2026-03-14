@@ -71,6 +71,7 @@ COMPLETION_WAITING_DOTS="true"
 # see 'man strftime' for details.
 HIST_STAMPS="mm/dd/yyyy"
 
+
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
@@ -86,15 +87,34 @@ plugins=(
   zsh-syntax-highlighting
 )
 
+if [[ $IDEA_INITIAL_DIRECTORY ]]; then
+  # Use built-in robbyrussell theme inside IntelliJ
+  ZSH_THEME="robbyrussell"
+else
+  # Disable ZSH_THEME to avoid oh-my-zsh loading any theme
+  unset ZSH_THEME
+  # Instead, source powerlevel10k directly *after* oh-my-zsh loads
+fi
 
-
+# Now source oh-my-zsh with the correct ZSH_THEME set or unset
 source $ZSH/oh-my-zsh.sh
+
+# If we are NOT inside IntelliJ, source Powerlevel10k theme *after* oh-my-zsh
+if [[ ! $IDEA_INITIAL_DIRECTORY ]]; then
+  source ~/powerlevel10k/powerlevel10k.zsh-theme
+fi
+
 
 # Zsh plugins source 
 source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 # source /opt/homebrew/Cellar/fzf/0.53.0/shell/key-bindings.zsh
 # source /opt/homebrew/Cellar/fzf/0.53.0/shell/completion.zsh
 # User configuration
+
+# if [[ -n "$IDEA_INITIAL_DIRECTORY" ]]; then
+#   # Inside IntelliJ terminal: remap ESC to Ctrl-[ to avoid focus issues
+#   zvm_change_key='^['
+# fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -148,13 +168,12 @@ alias fgrep='fgrep --color=auto'
 alias mkdir='mkdir -pv'
 # Remove Control L shortcut
 bindkey -r "^L"
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 alias nv="nvim"
 alias python="$(pyenv which python)"
 alias pip="$(pyenv which pip)"
 alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 #alias python=python3
-export JAVA_HOME=/Users/yonko/Library/Java/JavaVirtualMachines/corretto-17.0.6/Contents/Home
+#export JAVA_HOME=/Users/yonko/Library/Java/JavaVirtualMachines/corretto-17.0.6/Contents/Home
 
 #alias for Connection DB HMCTS
 alias refreshAzSSHToken="yes n | az ssh config --ip \*.platform.hmcts.net --file ~/.ssh/config"
