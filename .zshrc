@@ -1,3 +1,7 @@
+if [[ -n "$IDEA_INITIAL_DIRECTORY" ]]; then
+  source ~/.zshrc_intellij
+  return
+fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc. Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -13,6 +17,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZVM_INIT_MODE=sourcing
 export FZF_DEFAULT_OPTS='--layout=default'
+export FZF_TMUX_OPTS="-p 80%,60%"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -106,6 +111,7 @@ fi
 
 
 # Zsh plugins source 
+# Zsh plugins source 
 source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 # source /opt/homebrew/Cellar/fzf/0.53.0/shell/key-bindings.zsh
 # source /opt/homebrew/Cellar/fzf/0.53.0/shell/completion.zsh
@@ -173,12 +179,12 @@ alias python="$(pyenv which python)"
 alias pip="$(pyenv which pip)"
 alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 #alias python=python3
-#export JAVA_HOME=/Users/yonko/Library/Java/JavaVirtualMachines/corretto-17.0.6/Contents/Home
-
-#alias for Connection DB HMCTS
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+export PATH=$JAVA_HOME/bin:$PATH#alias for Connection DB HMCTS
 alias refreshAzSSHToken="yes n | az ssh config --ip \*.platform.hmcts.net --file ~/.ssh/config"
 alias copyProdDbPass="az account get-access-token --resource-type oss-rdbms --query accessToken -o tsv | pbcopy"
 alias connectdb="refreshAzSSHToken && copyProdDbPass && ssh prod"
+alias k9s="K9s -n private-law"
 # alias connectdb="refreshAzSSHToken && copyProdDbPass && ssh -N prod"
 # alias connectdb="refreshAzSSHToken && ssh prod -t 'az account get-access-token --resource-type oss-rdbms --query accessToken -o tsv '"
 
@@ -193,7 +199,11 @@ export PUPPETEER_EXECUTABLE_PATH=`which chromium`
 
 alias dotfiles='/usr/bin/git --git-dir=/Users/$USERNAME/.cfg/ --work-tree=/Users/$USERNAME'
 
+alias gate-on='git rev-parse --is-inside-work-tree >/dev/null 2>&1 && { touch "$(git rev-parse --show-toplevel)/.run-coverage-on-commit" && echo "🛡️  Coverage Gate: ENABLED"; } || echo "❌ Not in a git repo"'
+alias gate-off='git rev-parse --is-inside-work-tree >/dev/null 2>&1 && { rm -f "$(git rev-parse --show-toplevel)/.run-coverage-on-commit" && echo "🔓  Coverage Gate: DISABLED"; } || echo "❌ Not in a git repo"'
+alias gate-status='git rev-parse --is-inside-work-tree >/dev/null 2>&1 && { [ -f "$(git rev-parse --show-toplevel)/.run-coverage-on-commit" ] && echo "🛡️  ON" || echo "🔓  OFF"; } || echo "❌ Not in a git repo"'
 # Load Angular CLI autocompletion.
+# Load Angular CLI autocompletion (Skip inside IntelliJ)
 source <(ng completion script)
 
 # zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
@@ -206,3 +216,4 @@ if [ -f "$HOME/.env" ]; then
     source "$HOME/.env"
 fi
 
+export PATH="$HOME/.local/bin:$PATH"
